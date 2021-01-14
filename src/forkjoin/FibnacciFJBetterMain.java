@@ -1,5 +1,7 @@
 package forkjoin;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
 
 public class FibnacciFJBetterMain {
@@ -7,9 +9,10 @@ public class FibnacciFJBetterMain {
 
     public static void main(String[] args) {
 
-        Long findFib = 8L;
-        FibnacciFJBetter task  = new FibnacciFJBetter(findFib);
-        ForkJoinPool pool = new ForkJoinPool();
+        Map<String, Long> map = new HashMap<>();
+        Long findFib = 9L;
+        FibnacciFJBetter task  = new FibnacciFJBetter(findFib,map);
+        ForkJoinPool pool = new ForkJoinPool(2);
         Long n = pool.invoke(task);
         System.out.format( "Fibonacci for %d : %d", findFib, n);
         pool.shutdown();
