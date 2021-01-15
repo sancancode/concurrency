@@ -8,6 +8,14 @@ Fork-join is particularly good for recursive problems, where a task involves run
 If you try to solve a recursive problem like this using conventional threading (e.g. via an Executor you will end up waiting for threads
 
 
+14
+
+If you have 3000 tasks in advance, and they are not going to spawn other tasks, the two will not behave substantially differently: with 10 threads, 10 tasks will be run at a time until they are all done.
+
+ForkJoinPool is designed for the case where you have one or a few tasks to start with, but the tasks know how to split themselves up into subtasks. 
+
+In this situation, ForkJoinPool is optimized to permit tasks to check on the availability of processing threads and split themselves up appropriately.
+
 brian goetz
 Conventional thread pools are designed for tasks that are independent of each other and are also designed with potentially blocking, 
 coarse-grained tasks in mind — fork-join solutions produce neither
@@ -22,6 +30,18 @@ If you want to process all submitted tasks in order of arrival, just use newFixe
 If you want to optimize performance of big computation of recursive tasks, use ForkJoinPool or newWorkStealingPool
 
 If you want to execute some tasks periodically or at certain time in future, use newScheduledThreadPool
+
+
+
+Differences : 
+Fine grainded tasks vs corqase grained tasks
+No contention as deques vs queue
+Recursive coherengt task vs independelt task
+Forkjointsk (lightwight) vs Thread
+Forkjointsk.join() vs THread.join
+
+
+
 
 
 
