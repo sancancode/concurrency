@@ -1,0 +1,27 @@
+
+javas-fork-join-vs-executorservice
+Fork-join allows you to easily execute divide and conquer jobs, which have to be implemented manually if you want to execute it in ExecutorService. 
+In practice ExecutorService is usually used to process many independent requests (aka transaction) concurrently, and fork-join when you want to accelerate one coherent job.
+
+Fork-join is particularly good for recursive problems, where a task involves running subtasks and then processing their results. (This is typically called "divide and conquer" ... but that doesn't reveal the essential characteristics.)
+
+If you try to solve a recursive problem like this using conventional threading (e.g. via an Executor you will end up waiting for threads
+
+
+brian goetz
+Conventional thread pools are designed for tasks that are independent of each other and are also designed with potentially blocking, 
+coarse-grained tasks in mind — fork-join solutions produce neither
+
+
+newWorkStealingPool(int parallelism)
+
+Creates a thread pool that maintains enough threads to support the given parallelism level, and may use multiple queues to reduce contention.
+
+If you want to process all submitted tasks in order of arrival, just use newFixedThreadPool(1)
+
+If you want to optimize performance of big computation of recursive tasks, use ForkJoinPool or newWorkStealingPool
+
+If you want to execute some tasks periodically or at certain time in future, use newScheduledThreadPool
+
+
+
