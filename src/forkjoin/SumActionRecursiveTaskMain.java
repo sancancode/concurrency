@@ -12,13 +12,13 @@ public class SumActionRecursiveTaskMain {
 
     public static void main(String[] args) {
 
-        List<Long> list = LongStream.range(0,100).boxed().collect(Collectors.toList());
+        List<Long> list = LongStream.range(0,11).boxed().collect(Collectors.toList());
         Map<String, Long> map = new HashMap<>();
         SumActionRecursiveTask task = new SumActionRecursiveTask(list,map);
-      //  ForkJoinPool pool = new ForkJoinPool(3);
+        //ForkJoinPool pool = new ForkJoinPool(3);
 
-        ForkJoinPool pool =  ForkJoinPool.commonPool();
-        //ForkJoinPool pool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+        //ForkJoinPool pool =  ForkJoinPool.commonPool();
+        ForkJoinPool pool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
 
 
         Long l = pool.invoke(task);

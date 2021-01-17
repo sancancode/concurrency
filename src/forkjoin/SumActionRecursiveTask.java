@@ -18,10 +18,11 @@ public class SumActionRecursiveTask extends RecursiveTask<Long> {
     @Override
     protected Long compute() {
 
+        long sum = 0L;
         map.merge(Thread.currentThread().getName(), 1L, Long::sum);
         if(data.size()<SEQ_THRESHOLD){
-            long sum = computeSequnetial();
-            System.out.format("Sum of the sub data %s, %d",data.toString(), sum);
+            sum = computeSequnetial();
+            System.out.format(Thread.currentThread().getName() + " Sum of the sub data %s, %d\n",data.toString(), sum);
             return sum;
         }
 
@@ -31,9 +32,15 @@ public class SumActionRecursiveTask extends RecursiveTask<Long> {
             SumActionRecursiveTask firstSubTask = new SumActionRecursiveTask(data.subList(0,mid), map);
             SumActionRecursiveTask secondSubTask = new SumActionRecursiveTask(data.subList(mid, data.size()), map);
 
+
             firstSubTask.fork();
-             Long l = secondSubTask.compute()+ firstSubTask.join();
-            return l;
+            secondSubTask.fork();
+            sum+=firstSubTask.join();
+            sum+=secondSubTask.join();
+
+            //firstSubTask.fork();
+             //Long l = secondSubTask.compute()+ firstSubTask.join();
+            return sum;
         }
 
     }
