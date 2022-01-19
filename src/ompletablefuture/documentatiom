@@ -1,0 +1,9 @@
+completablefuture - combination of future and completionstage
+
+Limitations of Future :
+
+1. Cannot be completed manually
+2. Cannot perform another action on it without blocking
+3. Cannot chain
+4. Cannot combine
+5. No exception handling
